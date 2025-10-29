@@ -37,18 +37,28 @@ export const uploadAndAnalyze = async (req, res) => {
     // Analyze with Groq
     const analysis = await analyzeFinancialData(textData, file?.originalname);
 
-    // Save to database
+    // Save to database - COM TODOS OS NOVOS CAMPOS
     const savedAnalysis = await saveAnalysis({
       user_id: req.user.id,
       title: analysis.title,
       category: analysis.category,
       amount: analysis.amount,
       taxes: analysis.taxes,
-      insights: analysis.insights,
+      insights: analysis.strategicInsights || analysis.insights, // Fallback para compatibilidade
       monthly_summary: analysis.monthlySummary,
-      original_data: textData.substring(0, 1000), // Store first 1000 chars
-      operation_type: analysis.operationType
+      original_data: textData.substring(0, 1000),
+      operation_type: analysis.operationType,
+      // NOVOS CAMPOS ADICIONADOS:
+      financial_analysis: analysis.financialAnalysis,
+      documentation_guide: analysis.documentationGuide,
+      practical_steps: analysis.practicalSteps,
+      legal_obligations: analysis.legalObligations,
+      best_practices: analysis.bestPractices,
+      strategic_insights: analysis.strategicInsights,
+      alerts: analysis.alerts
     });
+
+    console.log('💾 Análise salva com todos os campos:', Object.keys(savedAnalysis));
 
     res.json({
       success: true,
