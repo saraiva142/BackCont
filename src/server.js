@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import config from './config.js'; // ⚠️ Agora carrega primeiro
+import remindersRoutes from './routes/reminders.js';
 
 console.log('🚀 Iniciando servidor...');
 
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/analysis', analysisRoutes);
 app.use('/api/insights', insightsRoutes);
+app.use('/api/reminders', remindersRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
